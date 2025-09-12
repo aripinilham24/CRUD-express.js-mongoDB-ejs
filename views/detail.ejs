@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>detail</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="p-10">
+        <section class="flex gap-20">
+            <div>
+                <h1 class="font-bold text-center">Detail Movie</h1>
+                <ul>
+                    <% if(movies) { %>
+                    <li>Tite: <%= movies.title %></li>
+                    <li>Rating: <%= movies.rating %></li>
+                    <li>Genre: <%= movies.genre %></li>
+                    <% } else { %>
+                    <h2>Movie Not Found 404</h2>
+                    <% } %>
+                </ul>
+            </div>
+            <div>
+                <h1 class="font-bold text-center">Update Movie</h1>
+                <form
+                    action="/update/<%= movies._id %>?_method=PUT"
+                    method="POST"
+                    class="flex flex-col gap-3"
+                >
+                    <label class="border-2 border-blue-400 w-auto" for="title"
+                        >Title <input class="border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300" type="text" name="title" id="title"
+                    /></label>
+                    <label class="border-2 border-blue-400 w-auto" for="rating"
+                        >Rating
+                        <input class="border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
+                            type="number"
+                            name="rating"
+                            id="rating"
+                            step="0.1"
+                            min="0"
+                            max="10"
+                    /></label>
+                    <label class="border-2 border-blue-400 w-auto" for="genre"
+                        >Genre <input class="border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300" type="text" name="genre" id="genre"
+                    /></label>
+                    <button type="submit" class="border-2 bg-green-200 border-green-300">Update</button>
+                </form>
+            </div>
+        </section>
+    </body>
+</html>

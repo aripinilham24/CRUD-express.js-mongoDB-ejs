@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Room-Movies</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    </head>
+    <body class="p-10 bg-gray-900 text-white">
+        <% if(message) { %>
+        <span
+            class="message text-white border-2 border-blue-500 bg-blue-300 p-3 fixed left-1/2 -translate-x-1/2"
+            ><%= message %></span
+        >
+        <% } %>
+        <h1 class="text-center text-3xl font-bold">
+            Welcome to <a href="/">Room-Movies</a>
+        </h1>
+        <div class="search">
+            <form
+                action="/movie/search"
+                method="get"
+                class="w-full flex gap-2 justify-center my-5"
+            >
+                <input
+                    type="text"
+                    name="search"
+                    id="search"
+                    class="p-2 w-200 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded border border-gray-300"
+                />
+                <button
+                    class="rounded p-1 bg-blue-400 text-white hover:bg-blue-300 hover:cursor-pointer"
+                >
+                    Search
+                </button>
+            </form>
+        </div>
+        <div class="list-movie my-5">
+            <h2 class="font-bold text-xl">List Movie</h2>
+            <% if (!movies || movies.length === 0) { %>
+            <h2>No movies available</h2>
+            <% } else { %>
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Rating</th>
+                    <th>Action</th>
+                </tr>
+                <% movies.forEach(m => { %>
+                <tr>
+                    <td><%= m.title %></td>
+                    <td><%= m.rating %></td>
+                    <td>
+                        <a
+                            href="/detail/<%= m._id %>"
+                            class="rounded p-2 bg-blue-300"
+                            >Detail</a
+                        >
+                        <form
+                            action="http://localhost:5000/movie/delete/<%= m._id %>?_method=DELETE"
+                            method="POST"
+                            class="inline"
+                            onsubmit="return confirm('Yakin hapus film ini?')"
+                        >
+                            <button class="rounded p-2 bg-red-400">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </table>
+            <% } %>
+        </div>
+
+        <div class="form-add-movie my-5">
+            <h1 class="font-bold text-xl">Add Movie</h1>
+            <form
+                action="/movie/add"
+                method="POST"
+                class="flex flex-col gap-3 w-70"
+            >
+                <label
+                    class="rounded border-2 border-blue-400 flex gap-2 items-center p-1"
+                    for="title"
+                    >Title
+                    <input
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
+                        type="text"
+                        name="title"
+                        id="title"
+                /></label>
+                <label
+                    class="rounded border-2 border-blue-400 flex gap-2 items-center p-1"
+                    for="rating"
+                    >Rating
+                    <input
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
+                        type="number"
+                        name="rating"
+                        id="rating"
+                        step="0.1"
+                        min="0"
+                        max="10"
+                /></label>
+                <label
+                    class="rounded border-2 border-blue-400 flex gap-2 items-center p-1"
+                    for="genre"
+                    >Genre
+                    <input
+                        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
+                        type="text"
+                        name="genre"
+                        id="genre"
+                /></label>
+                <button
+                    type="submit"
+                    class="border-2 bg-blue-400 border-blue-600 rounded hover:bg-blue-300 hover:cursor-pointer"
+                >
+                    Submmit
+                </button>
+            </form>
+        </div>
+
+        <script>
+            setTimeout(() => {
+                const message = document.querySelector(".message");
+                if (message) {
+                    message.style.display = "none";
+                }
+            }, 3000);
+        </script>
+    </body>
+</html>
