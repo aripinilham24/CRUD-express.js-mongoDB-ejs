@@ -1,4 +1,4 @@
-import express from "express";
+ import express from "express";
 import { connectDB, Movie } from "./db.js";
 import methodOverride from 'method-override'
 const app = express();
@@ -60,18 +60,16 @@ app.delete('/movie/delete/:id', async (req, res)=>{
         await Movie.deleteOne({_id: req.params.id});
         res.redirect('/?message=Movie deleted successfully');
     } catch (e) {
-        res.send('Failed to delete movie:', e); 
-        res.redirect('/?message=Failed to delete movie');
+        res.redirect('/?message=Failed to delete movie' + e);
     }
 })
 
 app.put('/update/:id', async (req, res) => {
     try {
-        await Movie.updateOne({_id: req.params.id}, req.body);
+        await Movie.updateOne({_id: req.params.id}, req.body, {runValidators : true});
         res.redirect('/?message=Movie updated successfully');
     } catch (e) {
-        res.send('Failed to update movie:', e); 
-        res.redirect('/?message=Failed to update movie');
+        res.redirect('/?message=Failed to update movie' + e);
     }
 })
 
@@ -81,7 +79,7 @@ app.post("/movie/add", async (req, res) => {
         await Movie.insertOne(data);
         res.redirect('/?message=Movie added successfully');
     } catch (e) {
-        res.redirect('/?message=Failed to add movie');
+        res.redirect('/?message=Failed to add movie' + e);
     }
 });
 

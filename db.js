@@ -15,9 +15,9 @@ export const connectDB = async () => {
 };
 
 export const movieSchema = new mongoose.Schema({
-    title: String,
-    genre: String,
-    rating: Number,
+    title: {type:String, required: true},
+    genre: [{type:String, required: true}],
+    rating: {type:Number, required: true, min:-1, max:10},
 });
 
 export const Movie = mongoose.model("Movie", movieSchema);
