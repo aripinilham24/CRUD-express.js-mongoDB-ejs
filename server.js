@@ -32,7 +32,7 @@ app.get("/", async (req, res) => {
 app.get("/detail/:id", async (req, res) => {
     try {
         const data = await Movie.findById(req.params.id);
-        if (data.length === 0) {
+        if (!data) {
             return res.status(404).send("No movies found in the database");
         }
         res.render("detail", { movies: data, message:req.query.message || null });
@@ -66,7 +66,7 @@ app.delete('/movie/delete/:id', async (req, res)=>{
 
 app.put('/update/:id', async (req, res) => {
     try {
-        await Movie.updateOne({_id: req.params.id}, req.body, {runValidators : true});
+        await Movie.findOneAndUpdate({_id: req.params.id}, req.body, {runValidators : true});
         res.redirect('/?message=Movie updated successfully');
     } catch (e) {
         res.redirect('/?message=Failed to update movie' + e);

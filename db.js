@@ -15,10 +15,18 @@ export const connectDB = async () => {
 };
 
 export const movieSchema = new mongoose.Schema({
-    title: {type:String, required: true},
-    genre: [{type:String, required: true}],
-    rating: {type:Number, required: true, min:-1, max:10},
+    title: { type: String, required: true },
+    genre: [{ type: String, required: true }],
+    rating: { type: Number, required: true, min: -1, max: 10 },
 });
+
+movieSchema.methods.populer = () => {
+    return "This movie is populer";
+};
+
+movieSchema.statics.findByGenre = function (genre) {
+    return this.find({ genre: genre });
+};
 
 export const Movie = mongoose.model("Movie", movieSchema);
 
